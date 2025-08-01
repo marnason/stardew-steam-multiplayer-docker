@@ -6,7 +6,7 @@ services:
     build:
       args:
         STEAM_USER: "username"
-        STEAM_PASS: "password"
+        STEAM_LOGIN_KEY: "qwerty123456"
     container_name: stardew
     environment:
       - ALWAYS_ON_SERVER_UPGRADE_HOUSE=3

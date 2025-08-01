@@ -6,12 +6,10 @@ services:
       context: docker
       dockerfile: Dockerfile-steam
       args:
-        ## Recommended: set as env_variable during build
+        ## Steam username - required
         STEAM_USER: ${STEAM_USER}
-        ## Recommended: set as env_variable during build
-        STEAM_PASS: ${STEAM_PASS}
-        ## Recommended: set as env_variable during build
-        STEAM_GUARD: ${STEAM_GUARD}
+        ## Steam login key - required (generate via steamcmd +login user pass guard_code +quit)
+        STEAM_LOGIN_KEY: ${STEAM_LOGIN_KEY}
         ## Stardew steamId
         SRCDS_APPID: 413150
     container_name: stardew

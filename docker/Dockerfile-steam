@@ -1,8 +1,6 @@
 # Pull base image.
 FROM jlesage/baseimage-gui:debian-11
 
-ARG STEAM_USER
-ARG STEAM_PASS
 # Steam appId
 ARG SRCDS_APPID
 
@@ -34,11 +32,12 @@ RUN /data/steamcmd/steamcmd.sh +quit
 
 ## Don't set the arg earlier, if you need to rebuild the container
 ## it will cache up to here when you change the ENV VAR
-ARG STEAM_GUARD
+ARG STEAM_USER
+ARG STEAM_LOGIN_KEY
 
 RUN chown -R 1000:1000 /data && \
     export HOME=/data && \
-    /data/steamcmd/steamcmd.sh +force_install_dir ${GAME_PATH} +login ${STEAM_USER} ${STEAM_PASS} ${STEAM_GUARD} +app_update ${SRCDS_APPID} validate +quit
+    /data/steamcmd/steamcmd.sh +force_install_dir ${GAME_PATH} +login ${STEAM_USER} ${STEAM_LOGIN_KEY} +app_update ${SRCDS_APPID} validate +quit
 
 RUN mkdir -p /data/.steam/sdk32 && \
     cp -v /data/steamcmd/linux32/steamclient.so /data/.steam/sdk32/steamclient.so && \

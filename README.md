@@ -14,33 +14,69 @@ This project aims to autostart a Stardew Valley Multiplayer Server as easy as po
 
 ### Steam
 
-This image will download the game from Steam server using [steamcmd](https://developer.valvesoftware.com/wiki/SteamCMD) if you own the game. For that, it requires your Steam login.
+This image will download the game from Steam server using [steamcmd](https://developer.valvesoftware.com/wiki/SteamCMD) if you own the game. It requires a Steam login key for authentication.
 
-The credential variables are required only during building, not during game runtime.
+#### Setup Process
 
+**Step 1: Generate a Steam Login Key**
+
+Run the provided script to generate your login key:
+
+```bash
+./get-steam-login-key.sh
 ```
-## Set these variables only during the first build or during updates
-export STEAM_USER=<steamUsername>
-export STEAM_PASS=<steamPassword>
-export STEAM_GUARD=<lastesSteamGuardCode> # If you account is not protected, don't set
 
-docker compose -f docker-compose-steam.yml up
+This script will:
+- Prompt for your Steam username, password, and Steam Guard code
+- Authenticate with Steam and generate a login key
+- Display instructions for the next step
+
+**Step 2: Configure Override File**
+
+Edit `docker-compose-steam.override.yml` and add your credentials:
+
+```yaml
+services:
+  valley:
+    build:
+      args:
+        STEAM_USER: "your_username"
+        STEAM_LOGIN_KEY: "your_generated_login_key"
 ```
 
-#### Steam Guard
+**Step 3: Run the Server**
 
-If your account is protected by Steam Guard, the build is a little time sensitive. You must open your app and export the current Steam Guard to `STEAM_GUARD` environment variable code right before building.
-
-**Note: the code lasts a little longer than shown but not much.**
-
-After starting build, pay attention to your app. Even with the code, it will request for authorization which must be granted.
-
-If the build fails or when you want to update with `docker compose -f docker-compose-steam.yml build --no-cache`, you should set the newer `STEAM_GUARD` again.
-
+```bash
+./install-stardew.sh
 ```
-## Remove env variables after build
-unset STEAM_USER STEAM_PASS STEAM_GUARD
+
+#### Manual Setup
+
+If you prefer to generate the login key manually:
+
+```bash
+# Generate login key
+steamcmd +login your_username your_password your_steam_guard_code +quit
+
+# Copy the displayed login key and add it to docker-compose-steam.override.yml
+# Then run:
+docker compose -f docker-compose-steam.yml -f docker-compose-steam.override.yml up --build -d
 ```
+
+#### Why This Approach?
+
+This workflow separates credential generation from server deployment:
+
+- **Security**: Credentials are stored in the override file (can be gitignored)
+- **Simplicity**: One-time setup, then `./install-stardew.sh` always works
+- **Reliability**: Login keys don't expire quickly and work consistently
+- **Automation-Friendly**: Perfect for CI/CD or repeated deployments
+
+#### Security Notes
+
+- Add `docker-compose-steam.override.yml` to your `.gitignore` to avoid committing credentials
+- Login keys provide the same access as your password, store them securely
+- You can revoke login keys from your Steam account settings if needed
 ### Configuration
 
 Write Steam username and password into, and edit the `docker-compose-steam.override.yml` with your desired configuration settings. Values in `docker-compose-steam.yml` are quite descriptive as to what they set.
