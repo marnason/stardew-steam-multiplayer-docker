@@ -43,7 +43,7 @@ unset STEAM_USER STEAM_PASS STEAM_GUARD
 ```
 ### Configuration
 
-Edit the docker-compose-steam.override.yml with your desired configuration settings. Setting values in docker-compose-steam.yml are quite descriptive as to what they set.
+Write Steam username and password into, and edit the `docker-compose-steam.override.yml` with your desired configuration settings. Values in `docker-compose-steam.yml` are quite descriptive as to what they set.
 
 ## Game Setup
 
@@ -51,7 +51,7 @@ Initially, you have to create or load a game once via VNC or web interface. Afte
 
 ### VNC
 
-Use a VNC client like `TightVNC` on Windows or plain `vncviewer` on any Linux distribution to connect to the server. You can modify the VNC Port and IP address and Password in the `docker-compose.yml` file like this:
+Use a VNC client like `TightVNC` on Windows or plain `vncviewer` on any Linux distribution to connect to the server. You can modify the VNC Port and IP address and Password in the `docker-compose-steam.yml` file like this:
 
 Localhost:
 
