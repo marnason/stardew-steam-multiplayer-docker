@@ -18,7 +18,7 @@ echo "This will generate a login key that you can use in docker-compose-steam.ov
 echo ""
 
 # Run steamcmd with provided credentials
-steamcmd +login "$STEAM_USER" "$STEAM_PASS" "$STEAM_GUARD" +quit
+steamcmd +set_steam_guard_code "$STEAM_GUARD" +login "$STEAM_USER" "$STEAM_PASS" +quit
 
 echo ""
 echo "=== IMPORTANT ==="
