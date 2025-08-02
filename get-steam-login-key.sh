@@ -12,13 +12,8 @@ read -s -p "Steam password: " STEAM_PASS
 echo
 read -p "Steam Guard code: " STEAM_GUARD
 
-echo ""
-echo "Attempting to authenticate with Steam..."
-echo "This will generate a login key that you can use in docker-compose-steam.override.yml"
-echo ""
-
 # Run steamcmd with provided credentials
-steamcmd +set_steam_guard_code "$STEAM_GUARD" +login "$STEAM_USER" "$STEAM_PASS" +quit
+steamcmd +@NoPromptForPassword 1 +set_steam_guard_code "$STEAM_GUARD" +login "$STEAM_USER" "$STEAM_PASS" +quit
 
 echo ""
 echo "=== IMPORTANT ==="
